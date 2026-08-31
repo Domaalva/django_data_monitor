@@ -27,16 +27,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-&)d8g9x+-kmyj*xyig6p-7oflh&gfv9t*&yx-k4-&9io9q!^oq"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.app.github.dev",
-    "https://localhost:8000",
-    "http://127.0.0.1:8000",
+    "https://*.up.railway.app",
 ]
 
 ALLOWED_HOSTS = [
-    "*",
+    ".up.railway.app",
 ]
 # Application definition
 
@@ -52,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -135,6 +134,10 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+STATIC_ROOT = BASE_DIR / 'assets'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Autenticación
 LOGIN_URL = '/login/'
