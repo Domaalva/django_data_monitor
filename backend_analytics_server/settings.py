@@ -35,6 +35,8 @@ CSRF_TRUSTED_ORIGINS = [
 
 ALLOWED_HOSTS = [
     ".up.railway.app",
+    "127.0.0.1",
+    "localhost",
 ]
 # Application definition
 
@@ -137,7 +139,14 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / 'assets'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Autenticación
 LOGIN_URL = '/login/'

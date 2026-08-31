@@ -1,71 +1,79 @@
 /**
- * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
+ * Gráfico de respuestas por usuario.
+ * Los datos provienen de Django y de la API JSONPlaceholder.
  */
-const lineConfig = {
-  type: 'line',
-  data: {
-    labels: ['Hito 1', 'Hito 2', 'Hito 3', 'Hito 4', 'Hito 5', 'Hito 6', 'Hito 7'],
-    datasets: [
-      {
-        label: 'Serie 1',
-        /**
-         * These colors come from Tailwind CSS palette
-         * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
-         */
-        backgroundColor: '#0694a2',
-        borderColor: '#0694a2',
-        data: [43, 48, 40, 54, 67, 73, 70],
-        fill: false,
-      },
-      {
-        label: 'Serie 2',
-        fill: false,
-        /**
-         * These colors come from Tailwind CSS palette
-         * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
-         */
-        backgroundColor: '#7e3af2',
-        borderColor: '#7e3af2',
-        data: [24, 50, 64, 74, 52, 51, 65],
-      },
-    ],
-  },
-  options: {
-    responsive: true,
-    /**
-     * Default legends are ugly and impossible to style.
-     * See examples in charts.html to add your own legends
-     *  */
-    legend: {
-      display: false,
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false,
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true,
-    },
-    scales: {
-      x: {
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'Month',
-        },
-      },
-      y: {
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'Value',
-        },
-      },
-    },
-  },
-}
 
-// change this to the id of your chart element in HMTL
-const lineCtx = document.getElementById('line')
-window.myLine = new Chart(lineCtx, lineConfig)
+const dataElement = document.getElementById('posts-by-user-data')
+
+if (dataElement) {
+  const postsByUser = JSON.parse(dataElement.textContent)
+
+  const labels = Object.keys(postsByUser).map(
+    userId => `Usuario ${userId}`
+  )
+
+  const values = Object.values(postsByUser)
+
+  const lineConfig = {
+    type: 'line',
+
+    data: {
+      labels: labels,
+
+      datasets: [
+        {
+          label: 'Número de respuestas',
+          backgroundColor: '#0694a2',
+          borderColor: '#0694a2',
+          data: values,
+          fill: false,
+          tension: 0.3,
+        },
+      ],
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+
+      legend: {
+        display: true,
+      },
+
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+      },
+
+      hover: {
+        mode: 'nearest',
+        intersect: true,
+      },
+
+      scales: {
+        x: {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Usuarios',
+          },
+        },
+
+        y: {
+          display: true,
+          beginAtZero: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Respuestas',
+          },
+        },
+      },
+    },
+  }
+
+  const lineCtx = document.getElementById('line')
+
+  if (lineCtx) {
+    window.myLine = new Chart(lineCtx, lineConfig)
+  }
+}
